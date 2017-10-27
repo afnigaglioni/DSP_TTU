@@ -1,0 +1,13 @@
+What exactly are MATLABs fixed point capabilities? Why is it special?
+Should we build filter using fdesign.nyquist?
+If so, should we be comparing with raised cosine? How do we define the cutoff frequency?
+Do we have a predefined Fs? If so, is it 8k? If its not predetermined, how do we scale if we can't use M
+Do we choose M from fs/(2M)?
+Do we scale with this value? what does the 1/20, 4/20, 15/20 mean in this case
+How do we verify the sum of frequency responses should be equal to 1 in freq. domain
+The scaling we have already is for fixed-point implementation. Is the gain after the filter just to make the sum=1?
+For the following code:
+	bq = fi(b(:,1), true, B);  % signed = true, B = 16 bits
+	L = bq.FractionLength
+why is L changing if the size of b and B is the same
+Is summing the responses and substracting the input reasonable to check if it was reconstructed?
