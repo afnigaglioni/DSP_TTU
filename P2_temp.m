@@ -10,10 +10,10 @@ w_a=40; %wordsize of accumulator
 w_out=16; %wordsize of output signal
 
 %%----- Divide by 2 for second case--------%%
-w_in=8; %wordsize of input signal
-w_h=8; %wordsize of filter coefficients
-w_a=20; %wordsize of accumulator
-w_out=8; %wordsize of output signal
+% w_in=8; %wordsize of input signal
+% w_h=8; %wordsize of filter coefficients
+% w_a=20; %wordsize of accumulator
+% w_out=8; %wordsize of output signal
 
 %%
 
@@ -53,32 +53,32 @@ all(hlp.Numerator == round(hlp.Numerator))
 all(hbp.Numerator == round(hbp.Numerator))
 all(hhp.Numerator == round(hhp.Numerator))
 
-fvtool(hlp, 'Color', 'white')
-fvtool(hbp, 'Color', 'white')
-fvtool(hhp, 'Color', 'white')
+% fvtool(hlp, 'Color', 'white')
+% fvtool(hbp, 'Color', 'white')
+% fvtool(hhp, 'Color', 'white')
 
-noiseIn=fi(-1+(1-(-1)).*rand(4000,1),true,15);% Following formula a+(b-a).*rand() for [a,b] interval
+noiseIn=fi(-1+(1-(-1)).*rand(4000,1),true,w_in,15);% Following formula a+(b-a).*rand() for [a,b] interval
 noiseL=noiseIn.FractionLength
 noiseInSC=noiseIn*2^noiseL;
-fnoiseIn=fftshift(abs(fft(noiseIn.data)));
+fnoiseIn=fftshift(abs(fft(noiseInSC.data)));
 
 %% Low-pass output
-ylp=filter(hlp,noiseIn);
+ylp=conv(hlp.Numerator,noiseInSC);
 flp=fftshift(abs(fft(ylp.data)));
 
 %% Band-pass output
-ybp=filter(hbp,noiseIn);
+ybp=conv(hbp.Numerator,noiseInSC);
 fbp=fftshift(abs(fft(ybp.data)));
 
 %% High-pass output
-yhp=filter(hhp,noiseIn);
+yhp=conv(hhp.Numerator,noiseInSC);
 fhp=fftshift(abs(fft(yhp.data)));
 
 %% Truncating outputs
 
-ylp=fi(ylp, true, 16, 15);
-ybp=fi(ybp, true, 16, -17);
-yhp=fi(yhp, true, 16, -16);
+% ylp=fi(ylp, true, 16, -15);
+% ybp=fi(ybp, true, 16, -17);
+% yhp=fi(yhp, true, 16, -16);
 
 %% Plotting combined outputs
 

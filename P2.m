@@ -25,6 +25,8 @@ bsc = b(:,1)*2^L;
 hlp = fdesign.nyquist(16,bsc);
 hlp.Arithmetic = 'fixed';
 hlp.CoeffWordLength = 16;
+hlp.FilterInternals = 'SpecifyPrecision';
+hlp.AccumWordLength = w_a;
 
 
 bq = fi(b(:,2), true, B);  % signed = true, B = 16 bits
@@ -33,6 +35,8 @@ bsc = b(:,2)*2^L;
 hbp = dfilt.dffir(bsc);
 hbp.Arithmetic = 'fixed';
 hbp.CoeffWordLength = 16;
+hbp.FilterInternals = 'SpecifyPrecision';
+hbp.AccumWordLength = w_a;
 
 bq = fi(b(:,3), true, B);  % signed = true, B = 16 bits
 L = bq.FractionLength
@@ -40,6 +44,8 @@ bsc = b(:,3)*2^L;
 hhp = dfilt.dffir(bsc);
 hhp.Arithmetic = 'fixed';
 hhp.CoeffWordLength = 16;
+hhp.FilterInternals = 'SpecifyPrecision';
+hhp.AccumWordLength = w_a;
 
 % Check that the coefficients of h are all integers:
 
